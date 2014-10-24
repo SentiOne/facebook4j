@@ -29,4 +29,6 @@ public interface Comment extends FacebookResponse {
     Date getCreatedTime();
     Integer getLikeCount();
     Boolean isUserLikes();
+	Comment getParent();
+	Boolean canComment();
 }

@@ -43,6 +43,8 @@ import static facebook4j.internal.util.z_F4JInternalParseUtil.*;
     private Date createdTime;
     private Integer likeCount;
     private Boolean isUserLikes;
+	private Comment parent;
+	private Boolean canComment;
     
     /*package*/CommentJSONImpl(HttpResponse res, Configuration conf) throws FacebookException {
         super(res);
@@ -73,6 +75,13 @@ import static facebook4j.internal.util.z_F4JInternalParseUtil.*;
             createdTime = getISO8601Datetime("created_time", json);
             likeCount = getInt("like_count", json);
             isUserLikes = getBoolean("user_likes", json);
+			if (!json.isNull("parent")) {
+				JSONObject fromJSONObject = json.getJSONObject("parent");
+				parent = new CommentJSONImpl(fromJSONObject);
+			} else {
+				parent = null;
+			}
+			canComment = getBoolean("can_comment", json);
         } catch (JSONException jsone) {
             throw new FacebookException(jsone.getMessage(), jsone);
         }
@@ -106,7 +115,15 @@ import static facebook4j.internal.util.z_F4JInternalParseUtil.*;
         return isUserLikes;
     }
 
-    /*package*/
+	public Comment getParent() {
+		return parent;
+	}
+
+	public Boolean canComment() {
+		return canComment;
+	}
+
+	/*package*/
     static ResponseList<Comment> createCommentList(HttpResponse res, Configuration conf) throws FacebookException {
         try {
             if (conf.isJSONStoreEnabled()) {
@@ -163,7 +180,7 @@ import static facebook4j.internal.util.z_F4JInternalParseUtil.*;
         return "CommentJSONImpl [id=" + id + ", from=" + from + ", message="
                 + message + ", canRemove=" + canRemove + ", createdTime="
                 + createdTime + ", likeCount=" + likeCount + ", isUserLinks="
-                + isUserLikes + "]";
+                + isUserLikes + ", parent=" + parent + ", canComment=" + canComment + "]";
     }
 
 }
