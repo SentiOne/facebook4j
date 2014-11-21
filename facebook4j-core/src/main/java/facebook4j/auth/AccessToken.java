@@ -40,7 +40,7 @@ public class AccessToken implements java.io.Serializable {
             this.responseStr = string.split("&");
             this.token = getParameter("access_token");
             String expiresParameter = getParameter("expires");
-            if (this.responseStr.length > 1 && expiresParameter != null) {
+            if (expiresParameter != null) {
                 this.expires = Long.valueOf(expiresParameter);
             }
         } else {
