@@ -39,8 +39,9 @@ public class AccessToken implements java.io.Serializable {
         if (string.contains("access_token=")) {
             this.responseStr = string.split("&");
             this.token = getParameter("access_token");
-            if (this.responseStr.length > 1) {
-                this.expires = Long.valueOf(getParameter("expires"));
+            String expiresParameter = getParameter("expires");
+            if (this.responseStr.length > 1 && expiresParameter != null) {
+                this.expires = Long.valueOf(expiresParameter);
             }
         } else {
             this.token = string;
