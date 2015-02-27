@@ -152,5 +152,7 @@ public interface MessageMethods {
      * @see <a href="https://developers.facebook.com/docs/reference/api/message/">Message - Facebook Developers</a>
      */
     Message getMessage(String messageId, Reading reading) throws FacebookException;
-    
+
+	String replyInConversation(String conversationId, String message) throws FacebookException;
+
 }

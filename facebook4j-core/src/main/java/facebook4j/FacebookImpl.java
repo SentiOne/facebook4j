@@ -1172,6 +1172,14 @@ class FacebookImpl extends FacebookBaseImpl implements Facebook {
         return factory.createMessage(get(buildEndpoint(messageId, reading)));
     }
 
+	public String replyInConversation(String conversationId, String message) throws FacebookException {
+		ensureAuthorizationEnabled();
+		JSONObject json = post(buildEndpoint(conversationId, "messages"), new HttpParameter[] {
+				new HttpParameter("message", message)
+		}).asJSONObject();
+		return getRawString("id", json);
+	}
+
     /* Like Methods */
     
     public ResponseList<Like> getUserLikes() throws FacebookException {
