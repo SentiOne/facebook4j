@@ -17,6 +17,7 @@
 package facebook4j;
 
 import facebook4j.internal.http.RequestMethod;
+import facebook4j.junit.FacebookAPIVersion;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -31,7 +32,8 @@ import static org.junit.Assert.*;
 public class PermissionMethodsTest {
 
     public static class getPermissions extends MockFacebookTestBase {
-        @Test
+
+		@Test
         public void me() throws Exception {
             facebook.setMockJSON("mock_json/permission/all.json");
             List<Permission> actuals = facebook.getPermissions();
@@ -49,6 +51,29 @@ public class PermissionMethodsTest {
             assertThat(facebook.getEndpointURL(), is(pathOf("/1234567890123456/permissions")));
 
             assertThat(actuals.size(), is(80));
+        }
+
+    }
+
+    public static class revokeAllPermission extends MockFacebookTestBase {
+        @Test
+        public void me() throws Exception {
+            facebook.setMockJSON("mock_json/success.json");
+            boolean actual = facebook.revokeAllPermissions();
+            assertThat(facebook.getHttpMethod(), is(RequestMethod.DELETE));
+            assertThat(facebook.getEndpointURL(), is(pathOf("/me/permissions")));
+
+            assertThat(actual, is(true));
+        }
+
+        @Test
+        public void id() throws Exception {
+            facebook.setMockJSON("mock_json/success.json");
+            boolean actual = facebook.revokeAllPermissions("1234567890123456");
+            assertThat(facebook.getHttpMethod(), is(RequestMethod.DELETE));
+            assertThat(facebook.getEndpointURL(), is(pathOf("/1234567890123456/permissions")));
+
+            assertThat(actual, is(true));
         }
     }
 
@@ -69,6 +94,39 @@ public class PermissionMethodsTest {
             boolean actual = facebook.revokePermission("1234567890123456", "email");
             assertThat(facebook.getHttpMethod(), is(RequestMethod.DELETE));
             assertThat(facebook.getEndpointURL(), is(pathOf("/1234567890123456/permissions/email")));
+
+            assertThat(actual, is(true));
+        }
+
+        @Test
+        @FacebookAPIVersion("v2.3")
+        public void id_v23() throws Exception {
+            facebook.setMockJSON("mock_json/success.json");
+            boolean actual = facebook.revokePermission("1234567890123456", "email");
+            assertThat(facebook.getHttpMethod(), is(RequestMethod.DELETE));
+            assertThat(facebook.getEndpointURL(), is(pathOf("/v2.3/1234567890123456/permissions/email")));
+
+            assertThat(actual, is(true));
+        }
+    }
+
+    public static class deleteAllPermission extends MockFacebookTestBase {
+        @Test
+        public void me() throws Exception {
+            facebook.setMockJSON("mock_json/success.json");
+            boolean actual = facebook.deleteAllPermissions();
+            assertThat(facebook.getHttpMethod(), is(RequestMethod.DELETE));
+            assertThat(facebook.getEndpointURL(), is(pathOf("/me/permissions")));
+
+            assertThat(actual, is(true));
+        }
+
+        @Test
+        public void id() throws Exception {
+            facebook.setMockJSON("mock_json/success.json");
+            boolean actual = facebook.deleteAllPermissions("1234567890123456");
+            assertThat(facebook.getHttpMethod(), is(RequestMethod.DELETE));
+            assertThat(facebook.getEndpointURL(), is(pathOf("/1234567890123456/permissions")));
 
             assertThat(actual, is(true));
         }

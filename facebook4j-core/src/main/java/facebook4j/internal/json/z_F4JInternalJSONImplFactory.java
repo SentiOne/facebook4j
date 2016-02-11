@@ -55,6 +55,7 @@ import facebook4j.PageSetting;
 import facebook4j.Permission;
 import facebook4j.Photo;
 import facebook4j.Place;
+import facebook4j.PlaceTag;
 import facebook4j.Poke;
 import facebook4j.Post;
 import facebook4j.Question;
@@ -66,6 +67,7 @@ import facebook4j.Subscribedto;
 import facebook4j.Subscriber;
 import facebook4j.Tab;
 import facebook4j.Tag;
+import facebook4j.TaggableFriend;
 import facebook4j.Tagged;
 import facebook4j.Television;
 import facebook4j.TestUser;
@@ -199,6 +201,10 @@ public class z_F4JInternalJSONImplFactory implements z_F4JInternalFactory {
     public ResponseList<Friend> createFriendList(HttpResponse res) throws FacebookException {
         return FriendJSONImpl.createFriendList(res, conf);
     }
+    
+    public ResponseList<TaggableFriend> createTaggableFriendList(HttpResponse res) throws FacebookException {
+        return TaggableFriendJSONImpl.createTaggableFriendList(res, conf);
+    }
 
     public ResponseList<Game> createGameList(HttpResponse res) throws FacebookException {
         return GameJSONImpl.createGameList(res, conf);
@@ -237,6 +243,10 @@ public class z_F4JInternalJSONImplFactory implements z_F4JInternalFactory {
 
     public ResponseList<Location> createLocationList(HttpResponse res) throws FacebookException {
         return LocationJSONImpl.createLocationList(res, conf);
+    }
+    
+    public ResponseList<PlaceTag> createPlaceTagList(HttpResponse res) throws FacebookException {
+        return PlaceTagJSONImpl.createPlaceTagList(res, conf);
     }
 
     public ResponseList<Movie> createMovieList(HttpResponse res) throws FacebookException {
@@ -385,6 +395,10 @@ public class z_F4JInternalJSONImplFactory implements z_F4JInternalFactory {
     public TestUser createTestUser(JSONObject json) throws FacebookException {
         return new TestUserJSONImpl(json);
     }
+
+    public ResponseList<TestUser> createTestUserList(HttpResponse res) throws FacebookException {
+       return TestUserJSONImpl.createTestUserList(res, conf);
+   }
 
     public ResponseList<JSONObject> createJSONObjectList(HttpResponse res) throws FacebookException {
         return ResponseListImpl.createJSONObjectList(res, conf);
@@ -564,6 +578,9 @@ public class z_F4JInternalJSONImplFactory implements z_F4JInternalFactory {
         }
         if (jsonObjectType == Offer.class) {
             return (ResponseList<T>) createOfferList(res);
+        }
+        if (jsonObjectType == TestUser.class) {
+      	  return (ResponseList<T>) createTestUserList(res);
         }
         if (jsonObjectType == JSONObject.class) {
             return (ResponseList<T>) createJSONObjectList(res);
