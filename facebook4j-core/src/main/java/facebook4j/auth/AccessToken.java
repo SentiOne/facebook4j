@@ -50,7 +50,8 @@ public class AccessToken implements java.io.Serializable {
         this.token = getRawString("access_token", json);
         this.type = getRawString("token_type", json);
         this.expires = getLong("expires_in", json);
-        this.authType = AuthType.of(getRawString("auth_type", json));
+        String optionalAuthTypeString = getRawString("auth_type", json);
+        this.authType = optionalAuthTypeString != null ? AuthType.of(optionalAuthTypeString) : null;
         this.authNonce = getRawString("auth_nonce", json);
     }
 
