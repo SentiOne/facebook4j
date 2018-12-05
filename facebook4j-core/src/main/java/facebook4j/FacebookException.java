@@ -35,6 +35,7 @@ public class FacebookException extends Exception {
     private HttpResponse response;
     private String errorType;
     private String errorMessage;
+    private String errorUserMessage;
     private int errorCode = -1;
     private int errorSubcode = -1;
 
@@ -89,6 +90,7 @@ public class FacebookException extends Exception {
                     this.errorMessage = error.getString("message");
                     this.errorCode = error.getInt("code");
                     this.errorSubcode = error.getInt("error_subcode");
+                    this.errorUserMessage = error.getString("error_user_msg");
                 }
             } catch (JSONException ignore) {
             }
@@ -106,6 +108,8 @@ public class FacebookException extends Exception {
     public String getErrorMessage() {
         return errorMessage;
     }
+
+    public String getErrorUserMessage() { return errorUserMessage != null && errorUserMessage.length() > 0 ? errorUserMessage : errorMessage; }
     
     public int getErrorCode() {
         return errorCode;
